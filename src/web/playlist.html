@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="id"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Playlist</title>
+  <link rel="stylesheet" href="playlist.css">
+</head><body>
+<main id="root" class="root">
+  <section id="now" class="now" hidden>
+    <div class="bg" id="bg"></div>
+    <div class="head"><span class="label">SEDANG DIPUTAR</span><div id="eq" class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+    <div class="row">
+      <div class="cover"><span>♪</span><img id="cover" alt="" hidden></div>
+      <div class="meta">
+        <div id="title" class="title"></div>
+        <div id="artist" class="artist"></div>
+        <div id="req" class="req"></div>
+      </div>
+    </div>
+    <div class="progress"><span id="cur">0:00</span><div class="bar"><i id="bar"></i></div><span id="dur">0:00</span></div>
+  </section>
+
+  <section id="next" class="next" hidden>
+    <div class="label">BERIKUTNYA</div>
+    <ol id="list"></ol>
+  </section>
+
+  <section id="idle" class="idle" hidden>
+    <div class="note">♪</div>
+    <div><b>Request lagu</b><span>Ketik <kbd>!play</kbd> judul lagu di komentar</span></div>
+  </section>
+
+  <footer id="hint" class="hint" hidden>Ketik <kbd>!play</kbd> judul lagu untuk request</footer>
+</main>
+<script src="playlist.js"></script>
+</body></html>

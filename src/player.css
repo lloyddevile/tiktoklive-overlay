@@ -1,0 +1,43 @@
+/* Kartu "Now playing" bergaya Spotify / YouTube Music: ringkas, gelap, aksen hijau */
+.player{flex:none;margin:2px 8px 4px;padding:8px 10px 7px;border:1px solid #ffffff14;border-radius:12px;background:linear-gradient(135deg,#1a1d24f2,#101217f2);animation:flash .25s}
+.np{display:flex;align-items:center;gap:10px}
+.cover{position:relative;width:46px;height:46px;flex:none;display:grid;place-items:center;overflow:hidden;border-radius:7px;background:linear-gradient(135deg,#2b3a2f,#1d1f26);color:#1ed760;font-size:20px}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.meta{min-width:0;flex:1}
+.title{overflow:hidden;color:#fff;font-size:13px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
+.artist{margin-top:1px;overflow:hidden;color:#b3b6bf;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+.req{margin-top:2px;overflow:hidden;color:#7d818c;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.req b{margin-left:3px;padding:1px 4px;border-radius:4px;background:#ffd16622;color:#ffd166;font-size:8px;letter-spacing:.4px}
+.eq{display:flex;align-items:flex-end;gap:2px;height:14px;flex:none}
+.eq i{width:3px;height:100%;border-radius:1px;background:#1ed760;transform-origin:bottom;animation:eq .9s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.25s}.eq i:nth-child(3){animation-delay:.5s}
+.player.paused .eq i{animation-play-state:paused;transform:scaleY(.3)}
+@keyframes eq{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+.ctrl{display:flex;gap:2px;flex:none;opacity:0;transition:opacity .15s}
+.panel:hover .ctrl,.ctrl:focus-within{opacity:1}
+.ctrl button{width:26px;height:26px;border:0;border-radius:50%;background:#ffffff14;font-size:12px;cursor:pointer}
+.ctrl button:hover{background:#1ed760;color:#000}
+.progress{display:flex;align-items:center;gap:7px;margin-top:7px;color:#8b8f9a;font-size:9px;font-variant-numeric:tabular-nums}
+.bar{height:3px;flex:1;overflow:hidden;border-radius:2px;background:#ffffff1f}
+.bar i{display:block;height:100%;width:0;background:#1ed760;transition:width .25s linear}
+.queue{margin:6px 0 0;padding:6px 0 0;list-style:none;border-top:1px solid #ffffff12}
+.queue:empty{display:none}
+.queue li{display:flex;align-items:center;gap:7px;margin-top:2px;font-size:10px;color:#a9acb6}
+.queue .num{width:10px;flex:none;color:#6b6f7a;text-align:center}
+.queue .name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.queue .who{flex:none;max-width:70px;overflow:hidden;color:#6b6f7a;text-overflow:ellipsis;white-space:nowrap}
+.queue .more{padding-left:17px;color:#6b6f7a}
+.entry.command .text{opacity:.5}
+.entry.music .avatar{background:#1ed76033;color:#1ed760}
+.entry.music .line{color:#a5f0c0}
+.entry.music-error .avatar{background:#fe2c5533;color:#fe2c55}
+.entry.music-error .line{color:#ff9db0}
+.music-setting{margin-top:8px;padding-top:6px;border-top:1px solid #ffffff12}
+body.passthrough .ctrl{opacity:0}
+.size-setting input[readonly]{min-width:0;flex:1;padding:4px 6px;border:1px solid #ffffff25;border-radius:6px;background:#15161d;color:#e3e4e8;font-size:10px}
+.music-setting select{min-width:0;flex:1;padding:5px 6px;border:1px solid #ffffff25;border-radius:6px;background:#15161d;color:#e3e4e8;font-size:11px}
+#playlist-status:empty{display:none}
+#playlist-status.error{color:#ff9db0}
+.size-setting>div>button{flex:none}
+.entry.music-gift .avatar{background:#ffd16633;color:#ffd166}
+.entry.music-gift .line{color:#ffe29a}

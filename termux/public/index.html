@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="id"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0c11">
+  <title>TikTok Live Overlay</title>
+  <link rel="stylesheet" href="style.css">
+</head><body>
+<main class="app">
+  <header class="topbar">
+    <div id="status" class="status idle"><i></i><span>Belum terhubung</span></div>
+    <span id="duration" class="duration">00:00:00</span>
+    <div class="stats"><span>👁 <b id="viewers">—</b></span><span>♥ <b id="likes">0</b></span></div>
+  </header>
+
+  <form id="form" class="setup">
+    <div class="input">
+      <span>@</span>
+      <input id="username" placeholder="username atau link TikTok LIVE" autocapitalize="off" autocomplete="off" required>
+      <button id="connect">Hubungkan</button>
+    </div>
+    <p id="error"></p>
+  </form>
+
+  <button id="audio-warning" class="audio-warning" hidden>🔊 Ketuk di sini sekali untuk mengaktifkan suara di halaman ini</button>
+
+  <section id="player" class="player" hidden>
+    <div class="np">
+      <div class="cover"><span>♪</span><img id="np-cover" alt="" hidden></div>
+      <div class="meta">
+        <div id="np-title" class="title"></div>
+        <div id="np-artist" class="artist"></div>
+        <div id="np-req" class="req"></div>
+      </div>
+      <div id="np-eq" class="eq" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="ctrl">
+        <button id="np-pause" title="Jeda / lanjut">⏸</button>
+        <button id="np-skip" title="Lewati lagu">⏭</button>
+      </div>
+    </div>
+    <div class="progress"><span id="np-cur">0:00</span><div class="bar"><i id="np-bar"></i></div><span id="np-dur">0:00</span></div>
+    <ol id="np-queue" class="queue"></ol>
+  </section>
+
+  <details class="controls">
+    <summary>⚙ Pengaturan &amp; suara</summary>
+    <label>Musik !play <input id="music-on" type="checkbox" checked></label>
+    <label>Volume musik <input id="music-volume" type="range" min="0" max="100" value="60"></label>
+    <label>Tampilkan antrean <input id="music-queue" type="checkbox" checked></label>
+    <label>Link playlist <span class="copyrow"><input id="playlist-url" readonly><button type="button" id="playlist-copy">Salin</button></span></label>
+    <p class="music-help">Halaman khusus playlist untuk sumber Browser/Link di OBS atau TikTok LIVE Studio. Opsi: <kbd>?max=4</kbd> <kbd>?idle=0</kbd> <kbd>?hint=0</kbd> <kbd>?scale=1.2</kbd>. Perangkat lain di WiFi yang sama butuh <kbd>HOST=0.0.0.0</kbd> dan IP HP.</p>
+    <p class="music-help">Penonton: <kbd>!play</kbd> judul lagu · Host/moderator: <kbd>!skip</kbd> <kbd>!pause</kbd> (ketik lagi untuk lanjut). Lagu penuh butuh yt-dlp (lihat README); tanpa itu hanya pratinjau 30 detik.</p>
+    <label>Bacakan komentar <input id="tts-on" type="checkbox"></label>
+    <label>Sebut nama <input id="tts-name" type="checkbox" checked></label>
+    <label>Mesin suara <select id="tts-engine">
+      <option value="edge">Suara Edge, diputar di browser (disarankan)</option>
+      <option value="browser">Suara bawaan perangkat, di browser</option>
+      <option value="player">Suara Edge, lewat Termux:API (media player)</option>
+      <option value="termux">termux-tts-speak (lama)</option>
+    </select></label>
+    <label data-engines="edge player">Suara Edge <select id="tts-voice">
+      <option value="id-ID-ArdiNeural">Indonesia - Ardi (pria)</option>
+      <option value="id-ID-GadisNeural">Indonesia - Gadis (wanita)</option>
+      <option value="en-US-AriaNeural">English - Aria</option>
+      <option value="ms-MY-YasminNeural">Melayu - Yasmin</option>
+    </select></label>
+    <label>Kecepatan suara <input id="tts-rate" type="range" min="50" max="200" value="100"></label>
+    <label data-engines="edge browser">Volume di halaman <input id="tts-volume" type="range" min="0" max="100" value="100"></label>
+    <label data-engines="termux">Keluaran suara <select id="tts-stream">
+      <option value="MUSIC">Volume media (disarankan)</option>
+      <option value="NOTIFICATION">Volume notifikasi</option>
+      <option value="ALARM">Volume alarm</option>
+    </select></label>
+    <label data-engines="browser termux">Bahasa suara <select id="tts-lang">
+      <option value="id">Indonesia</option>
+      <option value="en">English</option>
+      <option value="">Bawaan mesin TTS</option>
+    </select></label>
+    <label>API key Euler Stream (opsional) <input id="api-key" type="password" placeholder="kosong = tanpa key" autocomplete="off"></label>
+    <label>Ukuran teks <input id="font" type="range" min="12" max="26" value="16"></label>
+    <div class="buttons">
+      <button type="button" id="mute">🔊 Bisu</button>
+      <button type="button" id="tts-skip">Lewati</button>
+      <button type="button" id="tts-test">Tes suara</button>
+    </div>
+    <p id="tts-error" class="tts-error"></p>
+  </details>
+
+  <div class="feedwrap">
+    <section id="feed" class="feed"><div id="empty" class="empty"><strong>•••</strong><p>Komentar akan muncul di sini</p></div></section>
+    <button id="jump" hidden>↓ terbaru</button>
+  </div>
+
+  <footer>
+    <span id="count">0 komentar</span>
+    <span class="creator">Lloyd Von Degurechaff</span>
+    <button id="disconnect" hidden>Putuskan</button>
+  </footer>
+</main>
+<script src="app.js"></script>
+</body></html>

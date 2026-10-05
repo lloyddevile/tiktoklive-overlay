@@ -1,0 +1,22 @@
+# Dependensi
+node_modules/
+
+# Hasil build (EXE portable dll.)
+dist/
+out/
+
+# Rahasia & konfigurasi lokal
+.env
+.env.*
+settings.json
+
+# Log
+*.log
+npm-debug.log*
+
+# Editor & sistem operasi
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

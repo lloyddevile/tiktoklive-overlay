@@ -1,0 +1,37 @@
+{
+  "name": "tiktok-live-overlay",
+  "version": "2.7.0",
+  "description": "Overlay komentar TikTok LIVE dengan pembaca komentar (TTS)",
+  "author": "Lloyd Von Degurechaff",
+  "private": true,
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --win portable"
+  },
+  "dependencies": {
+    "cloudflared": "^0.7.3",
+    "https-proxy-agent": "^7.0.6",
+    "msedge-tts": "^2.0.9",
+    "tiktok-live-connector": "^2.5.0"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "id.taiwe.tiktokliveoverlay",
+    "productName": "TikTok Live Overlay",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    },
+    "asarUnpack": [
+      "node_modules/cloudflared/bin/**"
+    ]
+  }
+}

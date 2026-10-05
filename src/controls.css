@@ -1,0 +1,20 @@
+/* Panel pengaturan: latar solid supaya selalu terbaca, berapa pun opasitas overlay */
+.settings{flex:none;max-height:62%;overflow-y:auto;padding:8px 12px;border-block:1px solid #ffffff14;background:#0d0e13f5;font-size:11px}
+.settings::-webkit-scrollbar{width:4px}.settings::-webkit-scrollbar-thumb{border-radius:4px;background:#ffffff2b}
+.settings label{display:grid;grid-template-columns:118px 1fr;align-items:center;margin:7px 0}
+.settings input{accent-color:var(--pink)}
+.settings input[type=checkbox]{justify-self:end}
+.settings-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;color:#e3e4e8}
+.settings-head button{width:26px;height:26px;border:0;border-radius:7px;background:#ffffff12;cursor:pointer;font-size:16px}
+.settings-head button:hover{background:var(--pink)}
+.size-setting{display:grid;grid-template-columns:118px 1fr;align-items:center;margin:8px 0}
+.size-setting>div{display:flex;gap:5px}
+.size-setting button{flex:1;padding:5px 3px;border:1px solid #ffffff1e;border-radius:6px;background:#ffffff0c;cursor:pointer;font-size:10px}
+.size-setting button:hover{border-color:#25f4ee80;background:#25f4ee12}
+.tts-setting{margin-top:8px;padding-top:6px;border-top:1px solid #ffffff12}
+.tts-setting select{width:100%;padding:5px 6px;border:1px solid #ffffff25;border-radius:6px;background:#15161d;color:#e3e4e8;font-size:11px}
+.tts-error{min-height:12px;margin:4px 0 0;color:var(--pink);font-size:9px}
+.shortcut-help{margin:9px 0 2px;color:#999ca6;font-size:9px;line-height:1.5}
+.shortcut-help kbd{padding:2px 4px;border:1px solid #ffffff25;border-radius:4px;background:#ffffff0d;color:#ddd}
+.creator-watermark{margin-left:auto;margin-right:8px;color:#ffffff72;font-weight:600;letter-spacing:.35px;pointer-events:none;white-space:nowrap}
+@media (max-width:360px){.creator-watermark{max-width:72px;overflow:hidden;text-overflow:ellipsis}}

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="id"><head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self'; script-src 'self'; media-src 'self' blob: https:">
+  <title>TikTok Live Overlay</title>
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="controls.css"><link rel="stylesheet" href="player.css">
+</head><body>
+<main class="panel">
+  <header class="topbar">
+    <div id="status" class="status idle"><i></i><span>Belum terhubung</span></div>
+    <span id="duration" class="duration">00:00:00</span>
+    <div class="stats">
+      <span title="Penonton aktif saat ini">👁 <b id="viewers">—</b></span>
+      <span title="Total like">♥ <b id="likes">0</b></span>
+    </div>
+    <button id="mute" title="Bisukan / aktifkan suara (Ctrl+Shift+M)" hidden>🔊</button>
+    <div class="tools">
+      <button id="gear" title="Pengaturan">⚙</button>
+      <button id="min" title="Perkecil">—</button>
+      <button id="close" title="Tutup">×</button>
+    </div>
+  </header>
+
+  <section id="setup" class="setup">
+    <form id="form">
+      <div class="input">
+        <span>@</span>
+        <input id="username" placeholder="username atau link TikTok LIVE" aria-label="Username atau link TikTok LIVE" required>
+        <button id="connect">Hubungkan</button>
+      </div>
+      <div class="input"><input id="apikey" type="password" placeholder="API key Euler Stream (opsional)" aria-label="API key Euler Stream (opsional)" autocomplete="off"></div>
+      <p id="error"></p>
+    </form>
+  </section>
+
+  <section id="player" class="player" hidden>
+    <div class="np">
+      <div class="cover"><span>♪</span><img id="np-cover" alt="" hidden></div>
+      <div class="meta">
+        <div id="np-title" class="title"></div>
+        <div id="np-artist" class="artist"></div>
+        <div id="np-req" class="req"></div>
+      </div>
+      <div id="np-eq" class="eq" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="ctrl">
+        <button id="np-pause" title="Jeda / lanjut">⏸</button>
+        <button id="np-skip" title="Lewati lagu">⏭</button>
+      </div>
+    </div>
+    <div class="progress"><span id="np-cur">0:00</span><div class="bar"><i id="np-bar"></i></div><span id="np-dur">0:00</span></div>
+    <ol id="np-queue" class="queue"></ol>
+  </section>
+
+  <section id="top" class="top" hidden><label>TOP</label><div id="top-list"></div></section>
+  <section id="join" class="join" hidden><div id="join-avatar" class="mini-avatar">?</div><p><b id="join-name">Penonton</b> bergabung</p></section>
+
+  <section id="settings" class="settings" hidden>
+    <div class="settings-head"><b>Pengaturan</b><button id="settings-close" title="Tutup pengaturan">×</button></div>
+    <label>Ukuran teks <input id="font" type="range" min="12" max="26" value="15"></label>
+    <label>Latar belakang <input id="opacity" type="range" min="0" max="100" value="55"></label>
+    <label>Chat memudar (dtk) <input id="fade" type="range" min="0" max="180" step="5" value="60"></label>
+    <div class="size-setting"><span>Ukuran jendela</span><div><button data-size="small">Kecil</button><button data-size="medium">Sedang</button><button data-size="large">Besar</button></div></div>
+    <label>Selalu di atas <input id="topmost" type="checkbox" checked></label>
+    <label>Klik tembus <input id="passthrough" type="checkbox"></label>
+    <label>Notif bergabung <input id="show-join" type="checkbox"></label>
+    <label>Top viewers <input id="show-top" type="checkbox"></label>
+    <div class="music-setting">
+      <label>Musik !play <input id="music-on" type="checkbox" checked></label>
+      <label>Volume musik <input id="music-volume" type="range" min="0" max="100" value="60"></label>
+      <label>Kecilkan saat TTS <input id="music-duck" type="checkbox" checked></label>
+      <label>Kartu di overlay ini <input id="music-card" type="checkbox" checked></label>
+      <label>Tampilkan antrean <input id="music-queue" type="checkbox" checked></label>
+      <div class="size-setting"><span>Link playlist</span><div>
+        <select id="playlist-kind" aria-label="Jenis link playlist">
+          <option value="localhost">Lokal: localhost</option>
+          <option value="loopback">Lokal: 127.0.0.1</option>
+          <option value="public">Publik: https (Cloudflare)</option>
+        </select>
+      </div></div>
+      <div class="size-setting"><span></span><div><input id="playlist-url" readonly placeholder="memuat…"><button id="playlist-copy">Salin</button><button id="playlist-stop" hidden title="Hentikan link publik">Stop</button></div></div>
+      <p id="playlist-status" class="shortcut-help"></p>
+      <div class="size-setting"><span>Jendela playlist</span><div>
+        <select id="playlist-bg" aria-label="Latar jendela playlist"><option value="green">Hijau (chroma key)</option><option value="dark">Gelap</option></select>
+        <button id="playlist-window">Buka</button>
+      </div></div>
+      <p class="shortcut-help"><b>Jika link localhost ditolak</b> oleh OBS / TikTok LIVE Studio: pilih <b>Publik: https</b> (link dibuat otomatis, tempel di sumber Link), atau klik <b>Buka</b> pada Jendela playlist lalu tangkap dengan <b>Window Capture</b> (jangan di-minimize). Opsi link: <kbd>?max=4</kbd> <kbd>?idle=0</kbd> <kbd>?hint=0</kbd> <kbd>?scale=1.2</kbd></p>
+      <p class="shortcut-help">Penonton: <kbd>!play</kbd> judul lagu<br>Host/moderator: <kbd>!skip</kbd> <kbd>!pause</kbd> (ketik lagi untuk lanjut)<br>Lagu penuh butuh <b>yt-dlp</b>; tanpa itu hanya pratinjau 30 detik (lihat README).</p>
+    </div>
+    <div class="tts-setting">
+      <label>Bacakan komentar <input id="tts-on" type="checkbox"></label>
+      <label>Suara <select id="tts-voice">
+        <option value="id-ID-ArdiNeural">Indonesia - Ardi (pria)</option>
+        <option value="id-ID-GadisNeural">Indonesia - Gadis (wanita)</option>
+        <option value="en-US-AriaNeural">English - Aria</option>
+        <option value="ms-MY-YasminNeural">Melayu - Yasmin</option>
+      </select></label>
+      <label>Kecepatan <input id="tts-rate" type="range" min="50" max="200" value="100"></label>
+      <label>Volume suara <input id="tts-volume" type="range" min="0" max="100" value="100"></label>
+      <label>Sebut nama <input id="tts-name" type="checkbox" checked></label>
+      <div class="size-setting"><span>Uji suara</span><div><button id="tts-test">Tes</button><button id="tts-skip">Lewati</button></div></div>
+      <p id="tts-error" class="tts-error"></p>
+    </div>
+    <p class="shortcut-help">Matikan klik-tembus kapan saja: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd><br>Bisukan suara TTS kapan saja: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd></p>
+  </section>
+
+  <div class="feedwrap">
+    <section id="feed" class="feed"><div id="empty" class="empty"><strong>•••</strong><p>Komentar akan muncul di sini</p></div></section>
+    <button id="jump" hidden>↓ terbaru</button>
+  </div>
+
+  <footer>
+    <span id="count">0 komentar</span>
+    <span class="creator-watermark">Lloyd Von Degurechaff</span>
+    <button id="disconnect" hidden>Putuskan</button>
+  </footer>
+</main>
+<script src="renderer.js"></script><script src="tts.js"></script><script src="player.js"></script>
+</body></html>
